@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css"
 
 function App() {
+
+  const[count , setCount] = useState(0);
+  const[input, setInput] = useState("");
+  const [list, setList] = useState([]);
+
+const onChangeInput = (e) => {
+  const inputValue = e.target.value;
+   setInput(inputValue);
+}
+
+  const onClickListAdd = () => {
+    if(!input.trim()) return;
+     setList([...list, input]);
+    setInput("");
+ setCount(count+1);
+  }
+
+const onKeyEntered = (e) => {
+  if(e.key==="Enter") onClickListAdd();
+}
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div >
+   <input onKeyDown={onKeyEntered} placeholder="new task" onChange={onChangeInput} type="text" value={input}/>
+   <h1>{count}</h1>
+   <ul>
+    {list.map((e,i)=><li key={i}>{e}</li>)}
+   </ul>
+<button onClick={onClickListAdd}>Add TO DO</button>
     </div>
   );
 }
